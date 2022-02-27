@@ -4,13 +4,7 @@ this allows for selection of the most important test results
 """
 
 # TO ADD
-# - compare dose rates with HollandPTC data!
-# - add different temperature compensations
-# - make sure reading either stops at a recharge or takes reacharging into account in another way
-# - the test facility will provide data concerning radiation, so here code can be added to integrate the received dose / flux into the dataframes
-# - compare frequency at the end of one file to the start of the next to see degradation over time (choose one with a lot of time in between)
-# - eliminate whips in data.... (set threshold for change per sensitivity?), it influences range determination for linear range...
-#   (this is only slight error, ignore?)
+# - compare dose rates with HollandPTC data! Verify HollandPTC dose rates....
 
 from FGD_03F_functions import *
 from FGD_03F_file_analysis_functions import *
@@ -48,12 +42,12 @@ elif (flag_Noise):
     flag_Noise_04_HIGH_Dec_16 = 0
     flag_HIGH_Jan_14 = 0
     flag_HIGH_Jan_15 = 0
-    flag_LOW_Jan_15 = 0
+    flag_LOW_Jan_15 = 1
     flag_HIGH_Jan_26 = 0
     flag_HIGH_Feb_18 = 0
     flag_HIGH_w32768_Feb_22 = 0
     flag_HIGH_Feb_23 = 0
-    flag_HIGH_w32768_Feb_23 = 1
+    flag_HIGH_w32768_Feb_23 = 0
 elif (flag_HollandPTC_0224):
     # which files to analyse
     start_of_filename = "FGDOS"

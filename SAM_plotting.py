@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # folder to use and file selection via start of filename
 folder = "CSV_files\\SAMV71\\Noise\\corrected"
 folder_image = "Figures\\Noise\\_SAM"
-start_of_filename = "SAMV71_HIGH_w32768_Feb_23"
+start_of_filename = "SAMV71_HIGH_Jan_26_08-33"
 # figure settings
 steps = 10
 

@@ -342,6 +342,17 @@ def plot_2subs_datasets(x_1,x_2,y_1,y_2,filename,names,steps,xlim=[-1,-1],ylim_1
     return fig,axs     
 
 def sens_linreg(x: str,y: str,index_ranges: list,datasets: object):
+    """determine the sensitivity of the given pandas datasets within the ranges given by the indexes using the columns x and y via linear regression methods.
+
+    Args:
+        x (str): x axis data column name
+        y (str): y axis data column name
+        index_ranges (list): limits to determine over which regions in the dataset linear regression should be used
+        datasets (object): pandas dataframe
+
+    Returns:
+        _type_: the intercepts, coefficients, p-values and R-squared values of the linear regression lines
+    """    
     x_matrix = np.zeros((len(datasets),len(index_ranges)),dtype=object)
     y_matrix = np.zeros((len(datasets),len(index_ranges)),dtype=object)
     models = np.zeros((len(datasets),len(index_ranges)),dtype=object)
@@ -365,6 +376,21 @@ def sens_linreg(x: str,y: str,index_ranges: list,datasets: object):
     return intercepts,coeffs,pvalues,rsquared
 
 def hist_dist_plot(data,columnname,filename,name,colors=['indianred','royalblue'],savefolder=os.getcwd()+"\\Figures",bins = 20,dist = 'none'):
+    """plot a histogram and fit a distribution over it
+
+    Args:
+        data (pandas series): data to use
+        columnname (string): title of the data series used for the histogram
+        filename (string): filename to give names to the plot and save files
+        name (string): label to give the data in the histogram
+        colors (list, optional): Colours of the data in the plots. Defaults to ['indianred','royalblue'].
+        savefolder (string, optional): Folder where to save files. Defaults to os.getcwd()+"\Figures".
+        bins (int, optional): Number of bins to use in the histogram. Defaults to 20.
+        dist (str, optional): Type of distribution to fit over histogram, options are none, normal and KDE. Defaults to 'none'.
+
+    Returns:
+        _type_: _description_
+    """    
     fig, ax = plt.subplots(figsize=(15,7))
     plt.hist(data,bins=bins,density=True,color=colors[0],label=name, alpha  = 0.6)
     xmin, xmax = limits([data])
@@ -395,6 +421,17 @@ def hist_dist_plot(data,columnname,filename,name,colors=['indianred','royalblue'
     return [fig,ax,dist,param_1,param_2]
 
 def kde_limits(data,steps,kde,confidence = 0.9545):
+    """given data and a KDE fit, determine endpoints of the interval determined by confidence
+
+    Args:
+        data (pandas series): data to use
+        steps (int): number of data points to use to go over the KDE
+        kde (Scipy model): Kernel Density Estimate Scipy model
+        confidence (float, optional): Percentage of surface area under KDE to include. Defaults to 0.9545.
+
+    Returns:
+        list: endpoints of the calculated area
+    """    
     kde_min, kde_max = (1-confidence)/2, confidence+(1-confidence)/2
     ecdf = sm.distributions.ECDF(data)
     xmin, xmax = limits([data])
@@ -418,6 +455,17 @@ def kde_limits(data,steps,kde,confidence = 0.9545):
     return resolution
 
 def data_moving_average(data,start,end,window):
+    """filter data using a moving average
+
+    Args:
+        data (pandas series): data to filter
+        start (index): where to start in the dataset
+        end (index): where to stop in the dataset
+        window (int): size of data point window to use for moving average
+
+    Returns:
+        pandas series: data series with original data, filtered data and leftover noise data
+    """    
     y = data.loc[start:end]
     y_filter = moving_average(data.loc[start-window:end+window],window)[window:-window]
     y_noise = y.copy(deep=True)    
