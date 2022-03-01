@@ -11,8 +11,8 @@ from FGD_03F_file_analysis_functions import *
 from FGD_03F_noise_analysis_functions import *
 
 flag_HollandPTC_1216 = 0
-flag_HollandPTC_0224 = 0
-flag_Noise = 1
+flag_HollandPTC_0224 = 1
+flag_Noise = 0
 
 if (flag_HollandPTC_1216):
     # which files to analyse
@@ -53,8 +53,8 @@ elif (flag_HollandPTC_0224):
     start_of_filename = "FGDOS"
     folder = "CSV_files\\Arduino\\HollandPTC_0224\\corrected"
     # file flags
-    flag_HIGH_B3_Feb_24 = 1
-    flag_HIGH_D4_2_Feb_24 = 0
+    flag_HIGH_B3_Feb_24 = 0
+    flag_HIGH_D4_2_Feb_24 = 1
 
 def main():
     # get csv files in subfolder, set the start of filename parameter to select specific files

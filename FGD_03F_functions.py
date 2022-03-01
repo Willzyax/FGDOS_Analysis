@@ -12,11 +12,9 @@ import fitter as ft
 
 # radiation test variables
 A1, A2, A3, A4 = [70,1.71*10**6],[70,7.07*10**6],[70,1.4*10**7],[70,3.69*10**7] # MeV, particles/cm²/s
-LET_70_Si = 0.007641 # MeV cm²/mg
+LET_70_Si = 0.007641 # MeV cm²/mg, dE/dx electronic, SRIM
 rad_conv = 1.6*10**-5 # conversion factor to rad
 gy_conv = 1.6*10**-7 # conversion factor to Gy
-# dose rates for experiments on Feb 24
-dose_rates = np.array([0.013,0.5,1.84])/60 # Gy/s
 
 # linear regression function definition
 def f_linreg(a,b,x):

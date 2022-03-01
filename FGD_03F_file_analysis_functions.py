@@ -1132,18 +1132,18 @@ def HIGH_B3_Feb_24_analysis(file_1,file_2,folder):
     savefolder = os.getcwd()+'\\Figures\\HollandPTC_0224\\B3_HIGH'
     file_name_1, file_name_2 = str(file_1), str(file_2)
     dataset_1, dataset_2 = read_file(folder,file_1),read_file(folder,file_2)
-    dose_rate = dose_rates[1] # Gy/s
+    dose_rate = 0.007567424 # Gy/s, see calculation table in excel, approx 120 MeV at target
 
     # use recharge reg and frequencies to determine endpoints of linear region
-    # start lin region a bit after a recharge ends to exclude overshoots. Second test run starts at t = 84e4 ms
+    # start lin region a bit after a recharge ends to exclude overshoots. Second test run stops at t = 84e4 ms
     i_start_1_1, i_end_1_1 = dataset_1.index[dataset_1[F_s_info] <= 90000].tolist()[0], dataset_1.index[dataset_1[F_s_info] <= 50000].tolist()[0] 
     i_start_1_2, i_end_1_2 = dataset_1.index[dataset_1[R_r_info] == 1].tolist()[5], dataset_1.index[dataset_1[R_r_info] == 129].tolist()[0]
-    i_start_1_3, i_end_1_3 = dataset_1.index[dataset_1[R_r_info] == 2].tolist()[5], dataset_1.index[dataset_1[t_info] >= 84e4].tolist()[0]
+    i_start_1_3, i_end_1_3 = dataset_1.index[dataset_1[R_r_info] == 2].tolist()[5], dataset_1.index[(dataset_1[t_info] >= 84e4)].tolist()[0]
     i_start_1_4, i_end_1_4 = dataset_1.index[dataset_1[R_r_info] == 3].tolist()[5], dataset_1.index[dataset_1[R_r_info] == 131].tolist()[0]
     i_start_1_5, i_end_1_5 = dataset_1.index[dataset_1[R_r_info] == 4].tolist()[5], dataset_1.index[dataset_1[R_r_info] == 132].tolist()[0]
     i_start_2_1, i_end_2_1 = dataset_2.index[dataset_2[F_s_info] <= 90000].tolist()[0], dataset_2.index[dataset_2[F_s_info] <= 50000].tolist()[0] 
     i_start_2_2, i_end_2_2 = dataset_2.index[dataset_2[R_r_info] == 1].tolist()[5], dataset_2.index[dataset_2[R_r_info] == 129].tolist()[0]
-    i_start_2_3, i_end_2_3 = dataset_2.index[dataset_2[R_r_info] == 2].tolist()[5], dataset_2.index[dataset_2[t_info] >= 84e4].tolist()[0]
+    i_start_2_3, i_end_2_3 = dataset_2.index[dataset_2[R_r_info] == 2].tolist()[5], dataset_2.index[(dataset_2[t_info] >= 84e4)].tolist()[0]
     i_start_2_4, i_end_2_4 = dataset_2.index[dataset_2[R_r_info] == 3].tolist()[5], dataset_2.index[dataset_2[R_r_info] == 131].tolist()[0]
     i_start_2_5, i_end_2_5 = dataset_2.index[dataset_2[R_r_info] == 4].tolist()[5], dataset_2.index[dataset_2[R_r_info] == 132].tolist()[0]
 
@@ -1186,11 +1186,21 @@ def HIGH_B3_Feb_24_analysis(file_1,file_2,folder):
     y_1, y_2 = dataset_1.loc[i_start_1_1:i_end_1_5,F_s_info],dataset_2.loc[i_start_2_1:i_end_2_5,F_s_info]
     xmin, xmax = limits([x_1,x_2])
     fig, ax = plt.subplots(figsize=(15,7))
-    sb.scatterplot(x=x_2, y=y_2,color='royalblue',label = 'Sensor 2',ax=ax, alpha=0.5,marker='o')
     sb.scatterplot(x=x_1, y=y_1,color='indianred',label = 'Sensor 1',ax=ax, alpha=0.5,marker='o')
+    sb.scatterplot(x=x_2, y=y_2,color='royalblue',label = 'Sensor 2',ax=ax, alpha=0.5,marker='o')
+
+    step = round((xmax-xmin)/steps)
+    x_linreg = range(xmin,xmax,500)
+    #  linreg lines for S2
+    # sb.lineplot(x=x_linreg, y=f_linreg(coeffs[1][0],intercepts[1][0],x_linreg),color='red', label = str(int(sensitivities[1][0]))+' (Hz/Gy)',ax=ax)
+    # sb.lineplot(x=x_linreg, y=f_linreg(coeffs[1][1],intercepts[1][1],x_linreg),color='red', label = str(int(sensitivities[1][1]))+' (Hz/Gy)',ax=ax)
+    # sb.lineplot(x=x_linreg, y=f_linreg(coeffs[1][2],intercepts[1][2],x_linreg),color='red', label = str(int(sensitivities[1][2]))+' (Hz/Gy)',ax=ax)
+    # sb.lineplot(x=x_linreg, y=f_linreg(coeffs[1][3],intercepts[1][3],x_linreg),color='red', label = str(int(sensitivities[1][3]))+' (Hz/Gy)',ax=ax)
+    # sb.lineplot(x=x_linreg, y=f_linreg(coeffs[1][4],intercepts[1][4],x_linreg),color='red', label = str(int(sensitivities[1][4]))+' (Hz/Gy)',ax=ax)
     # ax.set_xticks(range(xmin,xmax,step))
     # ax.set_xticklabels(range(xmin,xmax,step),rotation=30)
     ax.grid()
+    ax.set_ylim([45000,90000])
     fig.tight_layout()
     fig.show()
     fig.savefig(savefolder+'\\'+file_name_2[0:-7]+'_linregs_'+'.png')
@@ -1204,7 +1214,7 @@ def HIGH_D4_2_Feb_24_analysis(file_1,file_2,folder):
     savefolder = os.getcwd()+'\\Figures\\HollandPTC_0224\\D4_2_HIGH'
     file_name_1, file_name_2 = str(file_1), str(file_2)
     dataset_1, dataset_2 = read_file(folder,file_1),read_file(folder,file_2)
-    dose_rate = dose_rates[2] # Gy/s
+    dose_rate = 0.027886514 # Gy/s, see excel, approximation for 140 MeV at target
 
     # use end and startpoints. use recharge of Sensor 2 to determine t_recharge
     # approx: beam starts at t=4e4 ms 
