@@ -53,8 +53,8 @@ elif (flag_HollandPTC_0224):
     start_of_filename = "FGDOS"
     folder = "CSV_files\\Arduino\\HollandPTC_0224\\corrected"
     # file flags
-    flag_HIGH_B3_Feb_24 = 0
-    flag_HIGH_D4_2_Feb_24 = 1
+    flag_HIGH_B3_Feb_24 = 1
+    flag_HIGH_D4_2_Feb_24 = 0
 
 def main():
     # get csv files in subfolder, set the start of filename parameter to select specific files
