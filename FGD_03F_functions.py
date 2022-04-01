@@ -435,6 +435,7 @@ def kde_limits(data,steps,kde,confidence = 0.9545):
     xmin, xmax = limits([data])
     extension = (xmax-xmin)/4
     x = np.linspace(xmin-extension, xmax+extension, steps)
+    low_lim,high_lim = -1000,-1000
     flag = True
     for x in x:
         kde_int = kde.integrate_box_1d(xmin,x)

@@ -397,29 +397,29 @@ def HIGH_Jan_15_analysis(file_1,file_2,folder):
     i_end_1, i_end_2 = dataset_1.index.tolist()[-1] , dataset_2.index.tolist()[-1]
 
     # Histogram and noise range limits
-    x_1_l, x_2_l = dataset_1.loc[i_start_1:i_end_1,[F_s_info]] , dataset_2.loc[i_start_2:i_end_2,[F_s_info]]
+    x_1_l, x_2_l = dataset_1.loc[i_start_1:i_end_1,F_s_info] , dataset_2.loc[i_start_2:i_end_2,F_s_info]
     sensitivity = 10 # kHz/Gy
-    print("number of data points S1: %d"%(len(x_1_l[F_s_info])))
-    fig, ax, kde = hist_dist_plot(x_1_l,file_name_1[0:-7]+'_histogram_S1_all','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=29, dist = 'kde')[0:3]
+    print("number of data points S1: %d"%(len(x_1_l)))
+    fig, ax, kde = hist_dist_plot(x_1_l,F_s_info,file_name_1[0:-7]+'_histogram_S1_all','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=500, dist = 'kde')[0:3] # 29 bins
     resolution_1 = kde_limits(x_1_l,1000,kde,sensitivity)
-    print("number of data points S2: %d"%(len(x_2_l[F_s_info])))
-    fig, ax, kde = hist_dist_plot(x_2_l,file_name_1[0:-7]+'_histogram_S2_all','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 23,dist='kde')[0:3]
+    print("number of data points S2: %d"%(len(x_2_l)))
+    fig, ax, kde = hist_dist_plot(x_2_l,F_s_info,file_name_1[0:-7]+'_histogram_S2_all','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 500,dist='kde')[0:3] # 23 bins
     resolution_2 = kde_limits(x_2_l,1000,kde,sensitivity)
     print("Resolution assuming %f (kHz/Gy) sensitivity (mGy) (S1 | S2): %.3f | %.3f "%(sensitivity,resolution_1,resolution_2))
 
     # take full range and compare to part of range!
-    print("OVER PART RANGE (1250-1850")
+    print("OVER PART RANGE (1250-1850)")
     i_start_1, i_start_2 = dataset_1.index[dataset_1[t_info_s]>=1250].tolist()[0] , dataset_2.index[dataset_2[t_info_s]>=1250].tolist()[0]
     i_end_1, i_end_2 = dataset_1.index[dataset_1[t_info_s]>=1850].tolist()[0] , dataset_2.index[dataset_2[t_info_s]>=1850].tolist()[0]
 
     # Histogram and noise range limits
-    x_1_l, x_2_l = dataset_1.loc[i_start_1:i_end_1,[F_s_info]] , dataset_2.loc[i_start_2:i_end_2,[F_s_info]]
+    x_1_l, x_2_l = dataset_1.loc[i_start_1:i_end_1,F_s_info] , dataset_2.loc[i_start_2:i_end_2,F_s_info]
     sensitivity = 10 # kHz/Gy
-    print("number of data points S1: %d"%(len(x_1_l[F_s_info])))
-    fig, ax, kde = hist_dist_plot(x_1_l,file_name_1[0:-7]+'_histogram_S1_part','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=23, dist = 'kde')[0:3]
+    print("number of data points S1: %d"%(len(x_1_l)))
+    fig, ax, kde = hist_dist_plot(x_1_l,F_s_info,file_name_1[0:-7]+'_histogram_S1_part','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=23, dist = 'kde')[0:3]
     resolution_1 = kde_limits(x_1_l,1000,kde,sensitivity)
-    print("number of data points S2: %d"%(len(x_2_l[F_s_info])))
-    fig, ax, kde = hist_dist_plot(x_2_l,file_name_1[0:-7]+'_histogram_S2_part','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 23,dist='kde')[0:3]
+    print("number of data points S2: %d"%(len(x_2_l)))
+    fig, ax, kde = hist_dist_plot(x_2_l,F_s_info,file_name_1[0:-7]+'_histogram_S2_part','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 23,dist='kde')[0:3]
     resolution_2 = kde_limits(x_2_l,1000,kde,sensitivity)
     print("Resolution assuming %f (kHz/Gy) sensitivity (mGy) (S1 | S2): %.3f | %.3f "%(sensitivity,resolution_1,resolution_2))
 
@@ -707,8 +707,8 @@ def HIGH_w32768_Feb_23_analysis(file_1,file_2,folder):
     print("PART OF RANGE (600-2400)")
     x_1_l, x_2_l = x_1_l, x_2_l = dataset_1.loc[i_start_1:i_end_1,F_s_info] , dataset_2.loc[i_start_2:i_end_2,F_s_info]
     print("number of data points (S1 | S2): %d | %d"%(len(x_1_l),len(x_2_l)))
-    mu_1,std_1 = hist_dist_plot(x_1_l,F_s_info,file_name_1[0:-7]+'_histogram_S1','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=18,dist='normal')[3:5]
-    mu_2,std_2 = hist_dist_plot(x_2_l,F_s_info,file_name_1[0:-7]+'_histogram_S2','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 18,dist='normal')[3:5]
+    mu_1,std_1 = hist_dist_plot(x_1_l,F_s_info,file_name_1[0:-7]+'_histogram_S1','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=1000,dist='normal')[3:5] # bins 18
+    mu_2,std_2 = hist_dist_plot(x_2_l,F_s_info,file_name_1[0:-7]+'_histogram_S2','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins=1000,dist='normal')[3:5] # bins 18
     print("Noise peak to peak range limits (+- 2*sigma = 95.45%%) S1 (mu | 4s ): %f | %f "%(mu_1,4*std_1))
     print("Noise peak to peak range limits (+- 2*sigma = 95.45%%) S2 (mu | 4s ): %f | %f "%(mu_2,4*std_2))
 
@@ -728,7 +728,7 @@ def HIGH_w32768_Feb_23_analysis(file_1,file_2,folder):
     data_points_1, data_points_2 = len(y_1_noise.index),len(y_2_noise.index)
     print("data points (S1 | S2): %d | %d"%(data_points_1,data_points_2))
     mu_1,std_1 = hist_dist_plot(y_1_noise,F_s_info,file_name_1[0:-7]+'_histogram_S1_noise','Sensor 1', colors=['indianred','royalblue'],savefolder=savefolder, bins=18,dist='normal')[3:5]
-    mu_2,std_2 = hist_dist_plot(y_2_noise,F_s_info,file_name_1[0:-7]+'_histogram_S2_noise','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins = 18,dist='normal')[3:5]
+    mu_2,std_2 = hist_dist_plot(y_2_noise,F_s_info,file_name_1[0:-7]+'_histogram_S2_noise','Sensor 2', colors=['royalblue','indianred'],savefolder=savefolder, bins=18,dist='normal')[3:5]
     print("Noise peak to peak range limits (+- 2*sigma = 95.45%%) S1 (mu | 4s ): %f | %f "%(mu_1,4*std_1))
     print("Noise peak to peak range limits (+- 2*sigma = 95.45%%) S2 (mu | 4s ): %f | %f "%(mu_2,4*std_2))
 

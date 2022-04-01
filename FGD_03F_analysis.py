@@ -11,8 +11,8 @@ from FGD_03F_file_analysis_functions import *
 from FGD_03F_noise_analysis_functions import *
 
 flag_HollandPTC_1216 = 0
-flag_HollandPTC_0224 = 1
-flag_Noise = 0
+flag_HollandPTC_0224 = 0
+flag_Noise = 1
 
 if (flag_HollandPTC_1216):
     # which files to analyse
@@ -42,12 +42,12 @@ elif (flag_Noise):
     flag_Noise_04_HIGH_Dec_16 = 0
     flag_HIGH_Jan_14 = 0
     flag_HIGH_Jan_15 = 0
-    flag_LOW_Jan_15 = 1
+    flag_LOW_Jan_15 = 0
     flag_HIGH_Jan_26 = 0
     flag_HIGH_Feb_18 = 0
     flag_HIGH_w32768_Feb_22 = 0
     flag_HIGH_Feb_23 = 0
-    flag_HIGH_w32768_Feb_23 = 0
+    flag_HIGH_w32768_Feb_23 = 1
 elif (flag_HollandPTC_0224):
     # which files to analyse
     start_of_filename = "FGDOS"
